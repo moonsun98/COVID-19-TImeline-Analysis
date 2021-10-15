@@ -49,4 +49,4 @@ The dashboard includes:
 - People Partially Vaccinated vs People Fully Vaccinated
 - Total Tests vs Positivity Rate
 
-Hence, the Timeline Analysis is complete and is available in Tableau Public.
+The Timeline Analysis is complete and is available in Tableau Public.
