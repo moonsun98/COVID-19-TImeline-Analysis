@@ -10,7 +10,6 @@
   -- No link can be established between columns. Example - if a smoker is also over 60, is vaccinated or not, did suffer from covid or not.
   -- Final Dataset is selected. 
  
- 
 
 -- FINAL DATASET SELECTION QUERY: 
   -- Column type was altered during analysis.
@@ -18,7 +17,7 @@
 			people_fully_vaccinated, population
 			FROM CovidCases
 			WHERE continent <> ' '
-
+			
 
 
 -- DATA EXPLORATION AND DATA CLEANING:
