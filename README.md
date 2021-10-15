@@ -38,7 +38,7 @@ During data exploration, a log of the things found and actions taken was maintai
 ## Data Visualiztion using Tableau
 A timeline dashboard is created using Tableau Desktop and is published on Tableau Public.
 
-[Link to the dashboard](https://public.tableau.com/views/Covid-19TimelineAnalysis_16342092518220/Dashboard1?:language=en-GB&publish=yes&:display_count=n&:origin=viz_share_link)
+[Link to the dashboard](https://public.tableau.com/app/profile/siddhartha.roy.chowdhury/viz/Covid-19TimelineAnalysis_16342092518220/Dashboard1)
 
 The dashboard includes:
 - Covid19 Cases World Map
