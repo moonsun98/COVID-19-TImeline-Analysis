@@ -1,0 +1,119 @@
+-- COVID19 TIMELINE ANALYSIS USING "Data on COVID-19 (coronavirus) by Our World in Data" dataset
+-- WRITTEN IN MICROSOFT SQL SERVER 
+-- LOG
+  -- Column types are all 'varchar'. Some needed to be changed to numeric type such as 'float' for proper calculation.
+	-- Dirty data in continent and location column is fixed by removing continent fields with blank data. Any data related to that blank field is irrelevant/wasted as it leads no proper conclusion.
+	-- ICU/Hospitalized Patient data is not sufficient enough to produce any accurate, unbiased conclusion. 
+  -- Insufficient Reproduction rate data
+	-- Extreme Poverty data is maybe unclean. It doesn't seem to affect the death rate of a country.
+	-- No link can be established between columns. Example - if a smoker is also over 60, is vaccinated or not, did suffer from covid or not.
+  -- Final Dataset is selected. 
+ 
+ 
+
+-- FINAL DATASET SELECTION QUERY: 
+  -- Column type was altered during analysis.
+     SELECT continent, location, date, new_cases, total_cases, new_deaths, total_deaths, new_tests,	total_tests, positive_rate,	total_vaccinations,	people_vaccinated, people_fully_vaccinated, population
+     FROM CovidCases
+     WHERE continent <> ' '
+
+
+
+-- DATA EXPLORATION AND DATA CLEANING:
+  -- Column Data Type Change for Analysis.
+      ALTER TABLE CovidCases
+      ALTER COLUMN total_deaths float;
+
+      ALTER TABLE CovidCases
+      ALTER COLUMN new_deaths float;
+
+      ALTER TABLE CovidCases
+      ALTER COLUMN population float;
+
+      ALTER TABLE CovidCases
+      ALTER COLUMN total_cases float;
+
+      ALTER TABLE CovidCases
+      ALTER COLUMN new_cases float;
+
+      ALTER TABLE CovidCases
+      ALTER COLUMN new_tests float;
+
+      ALTER TABLE CovidCases
+      ALTER COLUMN total_tests float;
+
+      ALTER TABLE CovidCases
+      ALTER COLUMN positive_rate float;
+
+      ALTER TABLE CovidCases
+      ALTER COLUMN total_vaccinations float;
+
+      ALTER TABLE CovidCases
+      ALTER COLUMN people_vaccinated float;
+
+      ALTER TABLE CovidCases
+      ALTER COLUMN people_fully_vaccinated float; 
+
+  -- Total Cases vs Total Deaths, DeathPercentage
+      SELECT location, date, new_cases, total_cases, total_deaths, (total_deaths/total_cases)*100 as DeathPercentage
+      FROM CovidCases
+      WHERE total_cases <> 0 AND continent <> ' '
+      ORDER BY DeathPercentage desc
+
+  -- Total Cases with their Population, PopulationInfectedRate 
+      SELECT location, population, new_cases, total_cases, (total_cases/population)*100 as PopulationInfectedRate
+      FROM CovidCases
+      WHERE population <> 0 AND continent <> ' '
+      ORDER BY PopulationInfectedRate desc
+
+  -- Total Cases and Total Deaths vs Extreme Poverty
+      SELECT location, MAX(total_cases) as total_cases, MAX(total_deaths) as total_death, MAX(extreme_poverty) as poverty
+      FROM CovidCases
+      WHERE continent <> ' '
+      GROUP BY location
+      ORDER BY poverty desc 
+
+  -- Vaccination rate
+       SELECT distinct(location), (people_fully_vaccinated/population)*100 as vaccinationrate 
+       FROM CovidCases
+       WHERE continent <> ' ' and population <> 0
+       
+  -- ICU/Hospitalized Patients vs Total Cases
+			SELECT location,CONVERT(date,date,104) as date, total_cases, icu_patients, hosp_patients, total_deaths
+			FROM CovidDeaths
+			WHERE population <> 0 and continent <> ' '
+			ORDER BY location, date
+
+  -- Checking Continents with icu patient data
+			SELECT distinct(continent)
+			FROM CovidDeaths 
+			WHERE contiNent <> ' ' and icu_patients <> 0 
+
+  -- Checking Continents with hosp patient data
+			SELECT distinct(continent)
+			FROM CovidDeaths
+			WHERE continent <> ' ' and hosp_patients <> 0
+
+  -- Reproduction Rate vs Total Cases
+				select location, CONVERT(date,date,104) as date, new_cases, total_cases, reproduction_rate
+				from CovidDeaths
+				Where continent <> ' '
+				order by location, date
+
+  -- Reproduction Rate vs Death Percentage
+				select location, CONVERT(date,date,104) as date, reproduction_rate, (total_deaths/total_cases)*100 as DeathPercentage, new_deaths, total_deaths
+				from CovidDeaths
+				Where continent <> ' ' and total_cases <> 0
+				order by location, date
+
+  -- Reproduction rate blank data (18262)
+				select count(reproduction_rate)
+				from CovidDeaths
+				Where continent <> ' ' and reproduction_rate = ' '
+
+  -- Reproduction rate available data (93833)
+				select count(reproduction_rate)
+				from CovidDeaths
+				Where continent <> ' ' and reproduction_rate <> ' '  
+     
+   
