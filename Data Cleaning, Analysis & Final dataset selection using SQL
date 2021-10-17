@@ -20,7 +20,7 @@
 			
 
 
--- DATA EXPLORATION AND DATA CLEANING:
+-- DATA EXPLORATION/ANALYSIS AND DATA CLEANING:
   -- Column Data Type Change for Analysis.
       ALTER TABLE CovidCases
       ALTER COLUMN total_deaths float;
