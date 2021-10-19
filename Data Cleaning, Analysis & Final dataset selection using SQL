@@ -1,7 +1,7 @@
 -- COVID19 TIMELINE ANALYSIS USING "Data on COVID-19 (coronavirus) by Our World in Data" dataset
 -- WRITTEN IN MICROSOFT SQL SERVER 
 
--- LOG
+-- NOTES
   -- Column types are all 'varchar'. Some needed to be changed to numeric type such as 'float' for proper calculation.
   -- Dirty data in continent and location column is fixed by removing continent fields with blank data. Any data related to that blank field is irrelevant/wasted as it leads no      proper conclusion.
   -- ICU/Hospitalized Patient data is not sufficient enough to produce any accurate, unbiased conclusion. 
